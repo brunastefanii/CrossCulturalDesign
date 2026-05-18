@@ -1,0 +1,453 @@
+.landing {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* ── Nav ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.nav-logo {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #0f172a;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-link:hover {
+  color: #0f172a;
+}
+
+/* ── Hero ── */
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 80px 48px 80px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 70%);
+}
+
+.hero-inner {
+  max-width: 680px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.headline {
+  font-size: clamp(36px, 5.5vw, 56px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  margin: 0 0 16px;
+}
+
+.subhead {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #64748b;
+  margin: 0 0 36px;
+  max-width: 520px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 26px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary:hover {
+  background: #1e293b;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22);
+}
+
+.btn-secondary {
+  padding: 13px 26px;
+  background: transparent;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+/* ── Builder ── */
+.builder-section {
+  padding: 0 24px 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.builder-card {
+  width: 100%;
+  max-width: 1040px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 8px 24px rgba(0, 0, 0, 0.04);
+  overflow: visible;
+}
+
+.builder-header {
+  padding: 24px 28px 0;
+}
+
+.builder-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+/* Tabs */
+.platform-tabs {
+  display: flex;
+  padding: 14px 28px 0;
+  gap: 2px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-top: 6px;
+}
+
+.platform-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.platform-tab:hover {
+  color: #1e293b;
+}
+
+.platform-tab.active {
+  color: #0f172a;
+  font-weight: 600;
+  border-bottom-color: #0f172a;
+}
+
+.tab-icon {
+  font-size: 15px;
+}
+
+/* Form */
+.builder-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 16px;
+  padding: 24px 28px 28px;
+  align-items: end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-counter {
+  font-weight: 500;
+  color: #94a3b8;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Select */
+.field-select {
+  height: 42px;
+  padding: 0 36px 0 13px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #0f172a;
+  background: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 4.5 5-4.5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+/* Combobox */
+.field-combobox,
+.countries-trigger {
+  min-height: 42px;
+  padding: 6px 13px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: #ffffff;
+  gap: 8px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  user-select: none;
+  position: relative;
+}
+
+.field-combobox:hover:not(.disabled),
+.countries-trigger:hover {
+  border-color: #94a3b8;
+}
+
+.field-combobox.open,
+.countries-trigger.open {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.field-combobox.disabled {
+  background: #f8fafc;
+  cursor: not-allowed;
+}
+
+.combobox-value {
+  font-size: 14px;
+  color: #0f172a;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.combobox-value.placeholder {
+  color: #94a3b8;
+}
+
+.combobox-chevron {
+  flex-shrink: 0;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.dropdown-search {
+  width: 100%;
+  padding: 10px 13px;
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0f172a;
+  outline: none;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+
+.dropdown-list {
+  max-height: 210px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 10px 13px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.1s;
+}
+
+.dropdown-item:hover:not(.maxed) {
+  background: #f8fafc;
+}
+
+.dropdown-item.selected {
+  color: #0f172a;
+  font-weight: 500;
+  background: #eff6ff;
+}
+
+.dropdown-item.maxed {
+  color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.dropdown-empty {
+  padding: 14px 13px;
+  font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.item-check {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1d4ed8;
+  white-space: nowrap;
+}
+
+.chip-x {
+  background: none;
+  border: none;
+  color: #93c5fd;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.1s;
+  font-family: inherit;
+}
+
+.chip-x:hover {
+  color: #2563eb;
+}
+
+/* Compare button */
+.field-action {
+  justify-content: flex-end;
+}
+
+.btn-compare {
+  height: 42px;
+  padding: 0 24px;
+  background: #e2e8f0;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: not-allowed;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.btn-compare.ready {
+  background: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn-compare.ready:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
