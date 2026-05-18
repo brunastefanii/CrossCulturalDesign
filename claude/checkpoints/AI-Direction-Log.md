@@ -50,10 +50,60 @@ Rules (no changes without permission, explain before acting) are understood by t
 
 ---
 
+### Entry 2 — 2026-05-18 — Project Scaffold + Landing Page
+
+**What I asked AI to do:**
+Build the Vite + React project scaffold, GitHub Pages deploy pipeline, and the landing page with comparison builder.
+
+**What AI produced:**
+- Full Vite + React scaffold (package.json, vite.config.js, index.html, src/main.jsx, App.jsx, index.css)
+- GitHub Pages deploy via `.github/workflows/deploy.yml`
+- Landing page: sticky nav, hero section, comparison builder with platform tabs, industry dropdown, brand combobox, countries multi-select with flag chips, Compare button
+
+**What I kept:**
+- Everything, with small adjustments to nav text and headline copy
+
+**What I changed/rejected:**
+- Nav logo changed from "CCD" to "CROSS-CULTURAL DESIGN" (uppercase)
+- Headline changed from "five cultures" to "other cultures"
+- Hero alignment: changed to left-aligned per reference image, then reverted back to centered
+
+**Why:**
+Centered alignment felt better for the layout after seeing it live.
+
+**Checkpoint:** NO
+
+---
+
+### Entry 3 — 2026-05-18 — Comparison View + Amazon Mockups
+
+**What I asked AI to do:**
+Build the full comparison view with browser frames and high-fidelity Amazon mockups for US, Brazil, and Japan across all 5 screens.
+
+**What AI produced:**
+- ComparisonView.jsx — context header, screen tabs, dynamic mockup canvas, 8-block analysis section
+- BrowserFrame.jsx — macOS-style browser chrome with scale(0.5) viewport
+- AmazonMockup.jsx — 5 screens × 3 countries with authentic cultural differences (language, trust signals, density, payment methods)
+- Placeholder analysis text for all 8 blocks
+
+**What I kept:**
+- Everything
+
+**What I changed/rejected:**
+- iframe embedding approach rejected after discussion — coded mockups chosen instead
+
+**Why:**
+Amazon blocks iframe embedding via X-Frame-Options. Coded mockups are the current solution; curated screenshots identified as the long-term approach.
+
+**Checkpoint:** YES — checkpoint-01.md
+
+---
+
 ## Checkpoint Index
 
 | Checkpoint | Date | Summary |
 |-----------|------|---------|
+| [checkpoint-01.md](checkpoint-01.md) | 2026-05-18 | Full scaffold + landing page + comparison view with Amazon mockups |
 
 _[Checkpoint docs live in `claude/checkpoints/`. Add a row here each time one is created.]_
 
