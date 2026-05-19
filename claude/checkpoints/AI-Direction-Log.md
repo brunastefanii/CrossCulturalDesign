@@ -99,11 +99,96 @@ Amazon blocks iframe embedding via X-Frame-Options. Coded mockups are the curren
 
 ---
 
+---
+
+### Entry 4 — 2026-05-18 — Upload Your Own Mode
+
+**What I asked AI to do:**
+Add an "Upload your own" mode to the landing page builder so users can upload their own screenshots and compare them.
+
+**What AI produced:**
+- Two tabs on the builder card: Library and Upload your own
+- Upload tab: brand name input, platform selector (App/Website/Mobile), conditional URL field, drag-and-drop upload zone, per-image screen name + country assignment
+- Comparison view handles upload mode: shows uploaded images per screen tab + country column
+- Compare activates when ≥1 image has screen name + country assigned
+
+**What I kept:**
+- Everything
+
+**What I changed/rejected:**
+- Rejected checkbox list for countries field — reverted to dropdown with checkboxes inside
+- Rejected back button placed below nav as its own row — moved it to above the mockup canvas instead
+
+**Why:**
+Checkbox list broke form alignment. Back button position felt better near the mockup columns.
+
+**Checkpoint:** NO
+
+---
+
+### Entry 5 — 2026-05-18 — Comparison View UI Fixes + Platform Switcher
+
+**What I asked AI to do:**
+Multiple UI fixes to the comparison view, then add a platform switcher (Website / Mobile App) replacing country chips in the context row.
+
+**What AI produced:**
+- Nav bar added to comparison view
+- Save/Export PDF buttons moved to VIEWING SCREEN row
+- Context row simplified: back button + breadcrumb + platform switcher [Website] [Mobile App]
+- SCREENS_BY_PLATFORM — different screen tabs per platform (Website: 5 screens, Mobile App: 6 screens including Splash Screen)
+- PhoneFrame.jsx — iPhone-style hardware chrome with status bar, dynamic island, home indicator, placeholder viewport
+- All brands get both Website and Mobile App platform options
+- Upload mode shows single platform chip (no switching)
+
+**What I kept:**
+- Everything
+
+**What I changed/rejected:**
+- Rejected back button below nav — reverted
+- Then re-added context row above mockup canvas (not as sticky header)
+
+**Why:**
+Iterating on placement to find what felt right visually.
+
+**Checkpoint:** NO
+
+---
+
+### Entry 6 — 2026-05-18 — Pattern Library Page
+
+**What I asked AI to do:**
+Build a Pattern Library page that opens when clicking "Browse library" — sidebar filters, 2-column pattern card grid, search, sort. Clicking a card goes straight to the comparison view.
+
+**What AI produced:**
+- LibraryPage.jsx + LibraryPage.css — full new screen
+- Left sidebar: Region (with counts), Pattern Type, Dimension filters — single-select with toggle
+- Top: "Pattern library" title + search input
+- Main: pattern count + active filter label + Sort dropdown (Recently added / Most viewed / A–Z)
+- 8 hardcoded Amazon pattern cards with live scaled mockup previews
+- Country tags at bottom of each card
+- Clicking a card goes to comparison view with pre-set countries + screen
+- App.jsx updated to handle 'library' screen state
+- "Browse library" hero button + nav link both navigate to library
+
+**What I kept:**
+- Everything (after fixing crash)
+
+**What I changed/rejected:**
+- Bug fix: CardPreview was passing full country object to AmazonMockup instead of country.code — caused blank page crash
+
+**Why:**
+AmazonMockup expects a country code string, not an object. BrowserFrame handles the conversion but CardPreview bypassed it.
+
+**Checkpoint:** YES — checkpoint-02.md
+
+---
+
 ## Checkpoint Index
 
 | Checkpoint | Date | Summary |
 |-----------|------|---------|
 | [checkpoint-01.md](checkpoint-01.md) | 2026-05-18 | Full scaffold + landing page + comparison view with Amazon mockups |
+| [checkpoint-02.md](checkpoint-02.md) | 2026-05-18 | Upload mode + platform switcher + PhoneFrame + Pattern Library page |
 
 _[Checkpoint docs live in `claude/checkpoints/`. Add a row here each time one is created.]_
 

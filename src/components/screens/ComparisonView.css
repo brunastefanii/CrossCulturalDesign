@@ -4,29 +4,55 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* ── Context Header ── */
-.ctx-header {
+/* ── Nav ── */
+.nav {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 60;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  height: 56px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid #e2e8f0;
+  padding: 0 48px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.nav-logo {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #0f172a;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-link:hover {
+  color: #0f172a;
+}
+
+/* ── Context Row ── */
+.ctx-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px 12px;
   gap: 16px;
 }
 
-.ctx-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
-}
 
 .back-btn {
   font-size: 13px;
@@ -110,6 +136,20 @@
   padding: 0 32px;
   background: #fff;
   border-bottom: 1px solid #e2e8f0;
+  justify-content: space-between;
+}
+
+.tabs-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.tabs-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .tabs-eyebrow {
@@ -303,3 +343,61 @@
   transition: color 0.15s;
 }
 .source-link:hover { color: #1d4ed8; text-decoration: underline; }
+
+/* ── Platform Switcher ── */
+.platform-switcher {
+  display: flex;
+  gap: 4px;
+}
+
+.platform-switch-btn {
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.platform-switch-btn:hover {
+  border-color: #94a3b8;
+  color: #374151;
+}
+
+.platform-switch-btn.active {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+/* ── Upload Frames ── */
+.upload-frame {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.upload-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.upload-frame-empty {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 10px;
+}

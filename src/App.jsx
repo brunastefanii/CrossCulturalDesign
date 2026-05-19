@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LandingPage from './components/screens/LandingPage'
 import ComparisonView from './components/screens/ComparisonView'
+import LibraryPage from './components/screens/LibraryPage'
 
 export default function App() {
   const [screen, setScreen] = useState('landing')
@@ -15,5 +16,9 @@ export default function App() {
     return <ComparisonView config={config} onBack={() => setScreen('landing')} />
   }
 
-  return <LandingPage onCompare={handleCompare} />
+  if (screen === 'library') {
+    return <LibraryPage onCompare={handleCompare} onBack={() => setScreen('landing')} />
+  }
+
+  return <LandingPage onCompare={handleCompare} onLibrary={() => setScreen('library')} />
 }

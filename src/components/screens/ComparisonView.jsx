@@ -1,14 +1,27 @@
 import { useState } from 'react'
 import BrowserFrame from '../mockups/BrowserFrame'
+import PhoneFrame from '../mockups/PhoneFrame'
 import './ComparisonView.css'
 
-const SCREENS = [
-  { id: 'home',     label: 'Home' },
-  { id: 'search',   label: 'Search Results' },
-  { id: 'product',  label: 'Product Detail' },
-  { id: 'cart',     label: 'Cart' },
-  { id: 'checkout', label: 'Checkout' },
-]
+const SCREENS_BY_PLATFORM = {
+  Website: [
+    { id: 'home',     label: 'Home' },
+    { id: 'search',   label: 'Search Results' },
+    { id: 'product',  label: 'Product Detail' },
+    { id: 'cart',     label: 'Cart' },
+    { id: 'checkout', label: 'Checkout' },
+  ],
+  'Mobile App': [
+    { id: 'splash',   label: 'Splash Screen' },
+    { id: 'home',     label: 'Home' },
+    { id: 'search',   label: 'Search Results' },
+    { id: 'product',  label: 'Product Detail' },
+    { id: 'cart',     label: 'Cart' },
+    { id: 'checkout', label: 'Checkout' },
+  ],
+}
+
+const AVAILABLE_PLATFORMS = ['Website', 'Mobile App']
 
 const ANALYSIS = [
   {
@@ -89,47 +102,92 @@ const ANALYSIS = [
 ]
 
 export default function ComparisonView({ config, onBack }) {
-  const [activeScreen, setActiveScreen] = useState('home')
-  const { brand, industry, platform, countries } = config
+  const isUpload = config.mode === 'upload'
+
+  // Derive upload screens and countries
+  const uploadScreenNames = isUpload
+    ? [...new Set(config.uploads.map(u => u.screenName))]
+    : []
+  const uploadCountries = isUpload
+    ? config.uploads.reduce((acc, u) => {
+        if (u.country && !acc.find(c => c.code === u.country.code)) acc.push(u.country)
+        return acc
+      }, [])
+    : []
+
+  const [activePlatform, setActivePlatform] = useState('Website')
+  const [activeScreen, setActiveScreen] = useState(
+    isUpload ? (uploadScreenNames[0] ?? '') :
+    (config.initialScreen ?? SCREENS_BY_PLATFORM['Website'][0].id)
+  )
+
+  const brand = config.brand || ''
+  const industry = config.industry || ''
+  const countries = isUpload ? uploadCountries : (config.countries || [])
   const canAddCountry = countries.length < 3
-  const activeLabel = SCREENS.find(s => s.id === activeScreen)?.label
+
+  const availablePlatforms = isUpload ? [config.platform] : AVAILABLE_PLATFORMS
+
+  const currentScreens = isUpload
+    ? uploadScreenNames.map(n => ({ id: n, label: n }))
+    : SCREENS_BY_PLATFORM[activePlatform]
+
+  const activeLabel = currentScreens.find(s => s.id === activeScreen)?.label ?? activeScreen
+
+  const handlePlatformChange = (p) => {
+    setActivePlatform(p)
+    setActiveScreen(SCREENS_BY_PLATFORM[p][0].id)
+  }
 
   return (
     <div className="comparison">
 
-      {/* Context Header */}
-      <header className="ctx-header">
-        <div className="ctx-left">
-          <button className="back-btn" onClick={onBack}>← Back</button>
-          <span className="breadcrumb">{industry} › {brand} › {platform}</span>
-          <div className="ctx-chips">
-            {countries.map(c => (
-              <span key={c.code} className="ctx-chip">
-                {c.flag} {c.name}
-              </span>
-            ))}
-            {canAddCountry && (
-              <button className="add-country-chip">+ Add country</button>
-            )}
-          </div>
+      {/* Nav */}
+      <nav className="nav">
+        <span className="nav-logo">Cross-Cultural Design</span>
+        <div className="nav-links">
+          <a href="#" className="nav-link">Compare</a>
+          <a href="#" className="nav-link">Library</a>
+          <a href="#" className="nav-link">About</a>
         </div>
-        <div className="ctx-actions">
-          <button className="action-btn">Save</button>
-          <button className="action-btn action-btn--primary">Export PDF</button>
-        </div>
-      </header>
+      </nav>
 
       {/* Screen Tabs */}
       <div className="screen-tabs-bar">
-        <span className="tabs-eyebrow">VIEWING SCREEN</span>
-        <div className="screen-tabs">
-          {SCREENS.map(s => (
+        <div className="tabs-left">
+          <span className="tabs-eyebrow">VIEWING SCREEN</span>
+          <div className="screen-tabs">
+            {currentScreens.map(s => (
+              <button
+                key={s.id}
+                className={`screen-tab${activeScreen === s.id ? ' active' : ''}`}
+                onClick={() => setActiveScreen(s.id)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="tabs-actions">
+          <button className="action-btn">Save</button>
+          <button className="action-btn action-btn--primary">Export PDF</button>
+        </div>
+      </div>
+
+      {/* Context Row */}
+      <div className="ctx-header">
+        <button className="back-btn" onClick={onBack}>← Back</button>
+        <span className="breadcrumb">
+          {isUpload ? `${brand || 'Upload'}` : `${industry} › ${brand}`}
+        </span>
+        <div className="platform-switcher">
+          {availablePlatforms.map(p => (
             <button
-              key={s.id}
-              className={`screen-tab${activeScreen === s.id ? ' active' : ''}`}
-              onClick={() => setActiveScreen(s.id)}
+              key={p}
+              className={`platform-switch-btn${activePlatform === p ? ' active' : ''}`}
+              onClick={() => !isUpload && handlePlatformChange(p)}
             >
-              {s.label}
+              {p}
             </button>
           ))}
         </div>
@@ -143,12 +201,29 @@ export default function ComparisonView({ config, onBack }) {
               <span className="col-flag">{c.flag}</span>
               <div>
                 <div className="col-name">{c.name}</div>
-                <div className="col-meta">{brand} · {c.code} · 2025</div>
+                <div className="col-meta">{brand || 'Upload'} · {c.code} · 2025</div>
               </div>
             </div>
-            <BrowserFrame country={c} screen={activeScreen} />
+
+            {isUpload ? (() => {
+              const match = config.uploads.find(
+                u => u.screenName === activeScreen && u.country?.code === c.code
+              )
+              return match ? (
+                <div className="upload-frame">
+                  <img src={match.previewUrl} alt={match.screenName} />
+                </div>
+              ) : (
+                <div className="upload-frame-empty">No image for this screen</div>
+              )
+            })() : activePlatform === 'Mobile App' ? (
+              <PhoneFrame country={c} screen={activeScreen} />
+            ) : (
+              <BrowserFrame country={c} screen={activeScreen} />
+            )}
           </div>
         ))}
+
         {canAddCountry && (
           <div className="mockup-col add-col">
             <div className="col-header col-header--ghost">
