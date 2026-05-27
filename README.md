@@ -1,9 +1,14 @@
+
+
 # Cross-Cultural Design
 
 A platform that helps designers understand how digital experiences shift across cultures.
 
 **AI 201 — Project 3: Persons Required**
 **Live URL:** https://brunastefanii.github.io/CrossCulturalDesign/
+
+Video:
+https://github.com/user-attachments/assets/82e22c62-5f9c-4590-a84c-e3ff286aae03
 
 ---
 
