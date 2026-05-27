@@ -1,14 +1,41 @@
 import AmazonMockup from './AmazonMockup'
 import './BrowserFrame.css'
 
+import amUsHome     from '../../assets/images/amazonus_home.png'
+import amBrHome     from '../../assets/images/amazonbr_home.png'
+import amJpHome     from '../../assets/images/amazonjp_home.png'
+import amUsProduct  from '../../assets/images/amazonus_productpage.png'
+import amBrProduct1 from '../../assets/images/amazonbr_productpage1.png'
+import amBrProduct2 from '../../assets/images/amazonbr_productpage2.png'
+import amJpProduct1 from '../../assets/images/amazonjp_productpage1.png'
+import amJpProduct2 from '../../assets/images/amazonjp_productpage2.png'
+
+import mcUsHome from '../../assets/images/mcdonaldsus_home.png'
+import mcBrHome from '../../assets/images/mcdonaldsbr_home.png'
+import mcJpHome from '../../assets/images/mcdonaldsjp_home.png'
+
+const SCREENSHOTS = {
+  'Amazon': {
+    US: { home: [amUsHome], product: [amUsProduct] },
+    BR: { home: [amBrHome], product: [amBrProduct1, amBrProduct2] },
+    JP: { home: [amJpHome], product: [amJpProduct1, amJpProduct2] },
+  },
+  "McDonald's": {
+    US: { home: [mcUsHome] },
+    BR: { home: [mcBrHome] },
+    JP: { home: [mcJpHome] },
+  },
+}
+
 const URLS = {
   US: 'amazon.com',
   BR: 'amazon.com.br',
   JP: 'amazon.co.jp',
 }
 
-export default function BrowserFrame({ country, screen }) {
+export default function BrowserFrame({ country, screen, brand }) {
   const url = URLS[country.code] || 'amazon.com'
+  const shots = SCREENSHOTS[brand]?.[country.code]?.[screen]
 
   return (
     <div className="browser-frame">
@@ -33,10 +60,23 @@ export default function BrowserFrame({ country, screen }) {
       </div>
 
       {/* Viewport */}
-      <div className="browser-viewport">
-        <div className="mockup-scale-wrapper">
-          <AmazonMockup country={country.code} screen={screen} />
-        </div>
+      <div className={`browser-viewport${shots ? ' screenshot-mode' : ''}`}>
+        {shots ? (
+          <div className="screenshot-stack">
+            {shots.map((src, i) => (
+              <img key={i} src={src} alt="" className="screenshot-img" />
+            ))}
+          </div>
+        ) : brand === 'Amazon' ? (
+          <div className="mockup-scale-wrapper">
+            <AmazonMockup country={country.code} screen={screen} />
+          </div>
+        ) : (
+          <div className="browser-placeholder">
+            <span className="browser-placeholder-label">Screenshot coming soon</span>
+            <span className="browser-placeholder-meta">{country.name} · {screen}</span>
+          </div>
+        )}
       </div>
     </div>
   )

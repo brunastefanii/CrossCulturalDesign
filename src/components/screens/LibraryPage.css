@@ -263,6 +263,18 @@
   pointer-events: none;
 }
 
+.card-preview-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.card-preview--empty {
+  background: #1e293b;
+}
+
 /* Card Body */
 .card-body {
   padding: 16px 18px 18px;

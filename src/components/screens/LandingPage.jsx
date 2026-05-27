@@ -2,12 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import './LandingPage.css'
 
 const BRANDS_BY_INDUSTRY = {
-  Finance: ['Chase', 'PayPal', 'Revolut', 'Wise', 'Stripe'],
-  Travel: ['Airbnb', 'Uber', 'Booking.com', 'Expedia'],
-  Fitness: ['Nike', 'Peloton', 'Strava', 'MyFitnessPal'],
-  'E-commerce': ['Amazon', 'eBay', 'Etsy', 'Shopify'],
-  Health: ['Teladoc', 'Hims', 'One Medical', 'Babylon'],
-  Social: ['Instagram', 'TikTok', 'WhatsApp', 'WeChat'],
+  'E-commerce': ['Amazon'],
+  'Food & Beverage': ["McDonald's"],
 }
 
 const COUNTRIES = [
@@ -23,9 +19,14 @@ const COUNTRIES = [
   { code: 'MX', name: 'Mexico', flag: '🇲🇽' },
 ]
 
+const COUNTRIES_BY_BRAND = {
+  'Amazon':      ['US', 'BR', 'JP'],
+  "McDonald's":  ['US', 'BR', 'JP'],
+}
+
 const PLATFORMS = [
-  { id: 'Mobile', icon: '📱' },
   { id: 'Website', icon: '🖥' },
+  { id: 'Mobile', icon: '📱' },
   { id: 'Kiosk', icon: '🏧' },
 ]
 
@@ -35,17 +36,18 @@ const UPLOAD_PLATFORMS = [
   { id: 'Mobile', icon: '📲' },
 ]
 
-const INDUSTRIES = ['Finance', 'Travel', 'Fitness', 'E-commerce', 'Health', 'Social']
+const INDUSTRIES = ['E-commerce', 'Food & Beverage']
 
 export default function LandingPage({ onCompare, onLibrary }) {
   // Mode
   const [builderMode, setBuilderMode] = useState('library')
 
   // Library state
-  const [platform, setPlatform] = useState('Mobile')
+  const [platform, setPlatform] = useState('Website')
   const [industry, setIndustry] = useState('')
   const [brand, setBrand] = useState('')
   const [brandSearch, setBrandSearch] = useState('')
+  const [industryOpen, setIndustryOpen] = useState(false)
   const [brandOpen, setBrandOpen] = useState(false)
   const [countries, setCountries] = useState([])
   const [countryOpen, setCountryOpen] = useState(false)
@@ -58,6 +60,7 @@ export default function LandingPage({ onCompare, onLibrary }) {
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
 
+  const industryRef = useRef(null)
   const brandRef = useRef(null)
   const countryRef = useRef(null)
 
@@ -66,6 +69,10 @@ export default function LandingPage({ onCompare, onLibrary }) {
     ? (BRANDS_BY_INDUSTRY[industry] || []).filter(b =>
         b.toLowerCase().includes(brandSearch.toLowerCase())
       )
+    : []
+
+  const availableCountries = brand
+    ? COUNTRIES.filter(c => (COUNTRIES_BY_BRAND[brand] || []).includes(c.code))
     : []
 
   const toggleCountry = (country) => {
@@ -84,6 +91,7 @@ export default function LandingPage({ onCompare, onLibrary }) {
 
   useEffect(() => {
     const handler = (e) => {
+      if (industryRef.current && !industryRef.current.contains(e.target)) setIndustryOpen(false)
       if (brandRef.current && !brandRef.current.contains(e.target)) setBrandOpen(false)
       if (countryRef.current && !countryRef.current.contains(e.target)) setCountryOpen(false)
     }
@@ -151,7 +159,7 @@ export default function LandingPage({ onCompare, onLibrary }) {
         <span className="nav-logo">Cross-Cultural Design</span>
         <div className="nav-links">
           <a href="#builder" className="nav-link">Compare</a>
-          <button className="nav-link" onClick={onLibrary} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Library</button>
+          <button className="nav-link nav-link-btn" onClick={onLibrary}>Library</button>
           <a href="#" className="nav-link">About</a>
         </div>
       </nav>
@@ -164,8 +172,7 @@ export default function LandingPage({ onCompare, onLibrary }) {
             See how the same screen<br />lives in other cultures.
           </h1>
           <p className="subhead">
-            Compare interfaces globally, study the patterns, and stress-test
-            your own designs against expectations in any market.
+            A platform that helps designers understand<br />how digital experiences shift across cultures
           </p>
           <div className="hero-ctas">
             <a href="#builder" className="btn-primary">Start a comparison</a>
@@ -216,22 +223,41 @@ export default function LandingPage({ onCompare, onLibrary }) {
 
               <div className="builder-form">
 
-                <div className="field">
+                <div className="field" ref={industryRef}>
                   <label className="field-label">Industry</label>
-                  <select
-                    className="field-select"
-                    value={industry}
-                    onChange={e => {
-                      setIndustry(e.target.value)
-                      setBrand('')
-                      setBrandSearch('')
-                    }}
+                  <div
+                    className={`field-combobox${industryOpen ? ' open' : ''}`}
+                    onClick={() => setIndustryOpen(v => !v)}
                   >
-                    <option value="">Select industry</option>
-                    {INDUSTRIES.map(i => (
-                      <option key={i} value={i}>{i}</option>
-                    ))}
-                  </select>
+                    <span className={`combobox-value${!industry ? ' placeholder' : ''}`}>
+                      {industry || 'Select industry'}
+                    </span>
+                    <svg className="combobox-chevron" width="12" height="7" viewBox="0 0 12 7" fill="none">
+                      <path d="M1 1l5 4.5 5-4.5" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+
+                    {industryOpen && (
+                      <div className="dropdown" onClick={e => e.stopPropagation()}>
+                        <div className="dropdown-list">
+                          {INDUSTRIES.map(i => (
+                            <div
+                              key={i}
+                              className={`dropdown-item${industry === i ? ' selected' : ''}`}
+                              onClick={() => {
+                                setIndustry(i)
+                                setBrand('')
+                                setBrandSearch('')
+                                setIndustryOpen(false)
+                              }}
+                            >
+                              {i}
+                              {industry === i && <span className="item-check">✓</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="field" ref={brandRef}>
@@ -261,7 +287,7 @@ export default function LandingPage({ onCompare, onLibrary }) {
                             <div
                               key={b}
                               className={`dropdown-item${brand === b ? ' selected' : ''}`}
-                              onClick={() => { setBrand(b); setBrandOpen(false); setBrandSearch('') }}
+                              onClick={() => { setBrand(b); setBrandOpen(false); setBrandSearch(''); setCountries([]) }}
                             >
                               {b}
                               {brand === b && <span className="item-check">✓</span>}
@@ -281,8 +307,8 @@ export default function LandingPage({ onCompare, onLibrary }) {
                     <span className="field-counter">{countries.length} of 3 selected</span>
                   </label>
                   <div
-                    className={`countries-trigger${countryOpen ? ' open' : ''}`}
-                    onClick={() => setCountryOpen(v => !v)}
+                    className={`countries-trigger${countryOpen ? ' open' : ''}${!brand ? ' disabled' : ''}`}
+                    onClick={() => brand && setCountryOpen(v => !v)}
                   >
                     {countries.length > 0 ? (
                       <div className="chips">
@@ -294,7 +320,9 @@ export default function LandingPage({ onCompare, onLibrary }) {
                         ))}
                       </div>
                     ) : (
-                      <span className="combobox-value placeholder">Select up to 3 countries…</span>
+                      <span className="combobox-value placeholder">
+                        {brand ? 'Select up to 3 countries…' : 'Select brand first'}
+                      </span>
                     )}
                     <svg className="combobox-chevron" width="12" height="7" viewBox="0 0 12 7" fill="none" style={{ flexShrink: 0 }}>
                       <path d="M1 1l5 4.5 5-4.5" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -303,7 +331,7 @@ export default function LandingPage({ onCompare, onLibrary }) {
                     {countryOpen && (
                       <div className="dropdown" onClick={e => e.stopPropagation()}>
                         <div className="dropdown-list">
-                          {COUNTRIES.map(c => {
+                          {availableCountries.map(c => {
                             const selected = countries.some(s => s.code === c.code)
                             const maxed = !selected && countries.length >= 3
                             return (
